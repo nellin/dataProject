@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
 
 def create_line_graph(ser):
     '''
@@ -27,10 +29,40 @@ def create_line_graph(ser):
                 datum[titles.index(temp)][2] = min([datum[titles.index(temp)][2], datum[i][2]])
                 del datum[i]
             i -= 1
-    print datums
+    
+    num_games, p_value = run_ttest(datums)
 
 def create_bar_graph(title):
     pass
+
+def run_ttest(datums):
+    '''
+    Returns a tuple pair with the number of video games used and the p value
+    
+    For t-test:
+    Input list is the order in the series
+    Output list is the number of sales for the game divided by the mean number
+     of sales for the video game series as a whole
+    '''
+    total_seqs = [] #e.g. Super Mario Galaxy is 1, Super Mario Galaxy 2 is 2
+    total_adj_sales = []
+    
+    for datum in datums:
+        datum.sort(key = lambda x: x[2])
+        seqs = range(1, len(datum) + 1)
+        sales = [video_game[1] for video_game in datum]
+        
+        avg_sale = sum(sales) / len(sales)
+        adjusted_sales = [sale/avg_sale for sale in sales]
+        
+        total_seqs += seqs
+        total_adj_sales += adjusted_sales
+    
+    seq_array = np.array(total_seqs)
+    sales_array = np.array(total_adj_sales)
+    
+    return (len(total_seqs), stats.ttest_ind(seq_array, sales_array)[1])
+    
 
 f = open('videogamesales/vgsales.csv', 'r')
 
@@ -38,7 +70,9 @@ video_games = [] #make 2d list to store relevant data for each video game
 
 f.readline() #skip over the first line (headers)
 
-for line in f.readlines():    
+#read first 10000 lines instead of all of them to avoid counting mission packs and similar add-ons
+for i in range(10000):
+    line = f.readline()   
     #store data from each line as an array
     data = line.rstrip('\n').split(',')
     
