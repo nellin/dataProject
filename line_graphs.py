@@ -46,15 +46,16 @@ def create_line_graph(ser):
             graphX.append(a[2])            
             graphY.append(a[1])
     
-    plt.plot(graphX, graphY, 'ro')
-    
-    plt.axis([min(graphX)-1, max(graphX)+1, 0, max(graphY)+1])
-    plt.xlabel('Date Released')
-    plt.ylabel('Millions of copies sold')
-    plt.grid(True)
-    plt.plot(graphX, np.poly1d(np.polyfit(graphX, graphY, 1))(graphX))
-    plt.title("Analysis of Sequels and Sales")
-    plt.show()
+    fig, ax = plt.subplots(1,1)
+    ax.plot(graphX, graphY, 'ro')
+    ax.plot(graphX, np.poly1d(np.polyfit(graphX, graphY, 1))(graphX))
+    ax.set_xticks(range(min(graphX)-1, max(graphX)+2))
+    ax.set_yticks(range(int(max(graphY))+2))
+    ax.grid(color='k', linestyle='-')
+    ax.set_xlabel('Date Released')
+    ax.set_ylabel('Millions of copies sold')
+    ax.set_title("Analysis of Sequels and Sales")
+    fig.show()
 
 def create_bar_graph(title):
     global video_games
