@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import operator
+import numpy as np
 
 def create_line_graph(ser):
     '''
@@ -27,7 +29,25 @@ def create_line_graph(ser):
                 datum[titles.index(temp)][2] = min([datum[titles.index(temp)][2], datum[i][2]])
                 del datum[i]
             i -= 1
-    print datums
+            graphOrder = []
+        #print datum
+        datum.sort(key=operator.itemgetter(2))
+        print datum
+        graphX = []
+        graphY = []
+        for a in datum:
+            graphX.append(a[2])            
+            graphY.append(a[1])
+    
+    plt.plot(graphX, graphY, 'ro')
+    
+    plt.axis([min(graphX)-1, max(graphX)+1, 0, max(graphY)+1])
+    plt.xlabel('Date Released')
+    plt.ylabel('Millions of copies sold')
+    plt.grid(True)
+    plt.plot(graphX, np.poly1d(np.polyfit(graphX, graphY, 1))(graphX))
+    plt.title("Analysis of Sequels and Sales")
+    plt.show()
 
 def create_bar_graph(title):
     pass
