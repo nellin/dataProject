@@ -40,7 +40,7 @@ def create_line_graph(ser):
     
         #print datum
         datum.sort(key=operator.itemgetter(2))
-        print datum
+        #print datum
         graphX = []
         graphY = []
         for a in datum:
@@ -58,8 +58,9 @@ def create_line_graph(ser):
     ax.set_title("Analysis of Sequels and Sales")
     for i in range(len(datum)):
         ax.annotate(datum[i][0], (graphX[i],graphY[i]))
-    fig.show()
     num_games, p_value = run_ttest(datums)
+    ax.text(0, 0, "p = %.4f" %(p_value))
+    fig.show()
 
 def create_bar_graph(title):
     global video_games
