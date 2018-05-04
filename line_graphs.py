@@ -2,6 +2,13 @@ import matplotlib.pyplot as plt
 import operator
 import numpy as np
 
+def make_PLTW_style(axes):
+    for item in ([axes.title, axes.xaxis.label, axes.yaxis.label] +
+             axes.get_xticklabels() + axes.get_yticklabels()):
+        item.set_family('Georgia')
+        item.set_fontsize(16)
+    plt.gcf().subplots_adjust(bottom=0.15)
+
 def create_line_graph(ser):
     '''
     Creates a line graph which plots the year on the x-axis and the global sales
@@ -50,7 +57,18 @@ def create_line_graph(ser):
     plt.show()
 
 def create_bar_graph(title):
-    pass
+    global video_games
+    datums = [[v[1] for v in video_games if v[0].lower() == title.lower()], [v[3] for v in video_games if v[0].lower() == title.lower()]]
+    a = range(len(datums[0]))
+    fig, ax  = plt.subplots(1, 1)
+    ax.bar(a, datums[0], 0.5, align="center")
+    ax.set_xticks(a) 
+    ax.set_xticklabels(datums[1])
+    ax.set_title('Success of ' + title + ' by Console')
+    ax.set_xlabel('Console')
+    ax.set_ylabel('Copies sold (millions of games)')
+    make_PLTW_style(ax)
+    fig.show()
 
 f = open('videogamesales/vgsales.csv', 'r')
 
