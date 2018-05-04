@@ -1,10 +1,7 @@
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 import numpy as np
 from scipy import stats
-=======
 import operator
-import numpy as np
 
 def make_PLTW_style(axes):
     for item in ([axes.title, axes.xaxis.label, axes.yaxis.label] +
@@ -12,7 +9,6 @@ def make_PLTW_style(axes):
         item.set_family('Georgia')
         item.set_fontsize(16)
     plt.gcf().subplots_adjust(bottom=0.15)
->>>>>>> 33bb67619d356944d9ce7988a52484567f946341
 
 def create_line_graph(ser):
     '''
@@ -41,11 +37,7 @@ def create_line_graph(ser):
                 datum[titles.index(temp)][2] = min([datum[titles.index(temp)][2], datum[i][2]])
                 del datum[i]
             i -= 1
-<<<<<<< HEAD
     
-    num_games, p_value = run_ttest(datums)
-=======
-            graphOrder = []
         #print datum
         datum.sort(key=operator.itemgetter(2))
         print datum
@@ -64,7 +56,8 @@ def create_line_graph(ser):
     plt.plot(graphX, np.poly1d(np.polyfit(graphX, graphY, 1))(graphX))
     plt.title("Analysis of Sequels and Sales")
     plt.show()
->>>>>>> 33bb67619d356944d9ce7988a52484567f946341
+    
+    num_games, p_value = run_ttest(datums)
 
 def create_bar_graph(title):
     global video_games
