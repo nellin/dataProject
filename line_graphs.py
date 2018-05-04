@@ -56,6 +56,8 @@ def create_line_graph(ser):
     ax.set_xlabel('Date Released')
     ax.set_ylabel('Millions of copies sold')
     ax.set_title("Analysis of Sequels and Sales")
+    for i in range(len(datum)):
+        ax.annotate(datum[i][0], (graphX[i],graphY[i]))
     fig.show()
     num_games, p_value = run_ttest(datums)
 
