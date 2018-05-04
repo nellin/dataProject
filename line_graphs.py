@@ -1,6 +1,18 @@
 import matplotlib.pyplot as plt
+<<<<<<< HEAD
 import numpy as np
 from scipy import stats
+=======
+import operator
+import numpy as np
+
+def make_PLTW_style(axes):
+    for item in ([axes.title, axes.xaxis.label, axes.yaxis.label] +
+             axes.get_xticklabels() + axes.get_yticklabels()):
+        item.set_family('Georgia')
+        item.set_fontsize(16)
+    plt.gcf().subplots_adjust(bottom=0.15)
+>>>>>>> 33bb67619d356944d9ce7988a52484567f946341
 
 def create_line_graph(ser):
     '''
@@ -29,11 +41,44 @@ def create_line_graph(ser):
                 datum[titles.index(temp)][2] = min([datum[titles.index(temp)][2], datum[i][2]])
                 del datum[i]
             i -= 1
+<<<<<<< HEAD
     
     num_games, p_value = run_ttest(datums)
+=======
+            graphOrder = []
+        #print datum
+        datum.sort(key=operator.itemgetter(2))
+        print datum
+        graphX = []
+        graphY = []
+        for a in datum:
+            graphX.append(a[2])            
+            graphY.append(a[1])
+    
+    plt.plot(graphX, graphY, 'ro')
+    
+    plt.axis([min(graphX)-1, max(graphX)+1, 0, max(graphY)+1])
+    plt.xlabel('Date Released')
+    plt.ylabel('Millions of copies sold')
+    plt.grid(True)
+    plt.plot(graphX, np.poly1d(np.polyfit(graphX, graphY, 1))(graphX))
+    plt.title("Analysis of Sequels and Sales")
+    plt.show()
+>>>>>>> 33bb67619d356944d9ce7988a52484567f946341
 
 def create_bar_graph(title):
-    pass
+    global video_games
+    datums = [[v[1] for v in video_games if v[0].lower() == title.lower()], [v[3] for v in video_games if v[0].lower() == title.lower()]]
+    a = range(len(datums[0]))
+    fig, ax  = plt.subplots(1, 1)
+    ax.bar(a, datums[0], 0.5, align="center")
+    ax.set_xticks(a) 
+    ax.set_xticklabels(datums[1])
+    ax.set_title('Success of ' + title + ' by Console')
+    ax.set_xlabel('Console')
+    ax.set_ylabel('Copies sold (millions of games)')
+    make_PLTW_style(ax)
+    fig.show()
 
 def run_ttest(datums):
     '''
